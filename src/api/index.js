@@ -1,13 +1,27 @@
 import axios from "axios";
 
-const API_URL = "https://covid2019-api.herokuapp.com/total";
+const BASE_URL = "https://covid2019-api.herokuapp.com/v2";
 
 export const fetchData = async () => {
   try {
     const {
-      data: { confirmed, deaths, recovered, dt },
-    } = await axios.get(API_URL);
-    return { confirmed, deaths, recovered, lastUpdate: dt };
+      data: {
+        data: { confirmed, deaths, recovered, active },
+        dt,
+      },
+    } = await axios.get(`${BASE_URL}/total`);
+    return { confirmed, deaths, recovered, active, lastUpdate: dt };
+  } catch (error) {
+    console.log(error, "ERROR");
+  }
+};
+
+export const fetchDailyData = async () => {
+  try {
+    const {
+      data: { data, dt },
+    } = await axios.get(`${BASE_URL}/current`);
+    return { data, lastUpdate: dt };
   } catch (error) {
     console.log(error, "ERROR");
   }

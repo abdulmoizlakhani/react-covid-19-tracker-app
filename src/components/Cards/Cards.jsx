@@ -6,11 +6,11 @@ import styles from "./Cards.module.css";
 
 export default function Cards(props) {
   const { data } = props;
-  const { confirmed, deaths, recovered, lastUpdate } = data;
+  const { confirmed, deaths, recovered, active, lastUpdate } = data;
 
   return (
     <div className={styles.container}>
-      <Grid container spacing={3} justifyContent="center">
+      <Grid container spacing={3} justifyContent="center" wrap="nowrap">
         <Grid
           item
           component={Card}
@@ -64,6 +64,26 @@ export default function Cards(props) {
             </Typography>
             <Typography variant="h6">
               <CountUp start={0} end={deaths} duration={2.5} separator="," />
+            </Typography>
+            <Typography color="textSecondary">{lastUpdate}</Typography>
+            <Typography variant="body2">
+              No. of deaths caused by COVID-19
+            </Typography>
+          </CardContent>
+        </Grid>
+        <Grid
+          item
+          component={Card}
+          xs={12}
+          md={3}
+          className={cx(styles.card, styles.active)}
+        >
+          <CardContent>
+            <Typography color="textSecondary" gutterBottom>
+              Active
+            </Typography>
+            <Typography variant="h6">
+              <CountUp start={0} end={active} duration={2.5} separator="," />
             </Typography>
             <Typography color="textSecondary">{lastUpdate}</Typography>
             <Typography variant="body2">
