@@ -1,9 +1,24 @@
-import "./App.css";
+import { useEffect, useState } from "react";
+import { Cards, Chart, CountryPicker } from "./components";
+import styles from "./App.module.css";
+import { fetchData } from "./api";
 
 function App() {
+  const [data, updateData] = useState({});
+
+  useEffect(() => {
+    async function getData() {
+      const response = await fetchData();
+      updateData(response);
+    }
+    getData();
+  }, []);
+
   return (
-    <div className="App">
-      <h2>Covid 19 - Tracker</h2>
+    <div className={styles.container}>
+      <Cards data={data} />
+      <CountryPicker />
+      <Chart />
     </div>
   );
 }
