@@ -6,10 +6,6 @@ on:
   pull_request:
     branches: [master]
 
-env:
-  REACT_APP_API_HOST: ${{ secrets.REACT_APP_API_HOST }}
-  REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,6 +24,9 @@ jobs:
 
       - name: Build React App
         run: sudo yarn build
+        env:
+          REACT_APP_API_HOST: ${{ secrets.REACT_APP_API_HOST }}
+          REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
 
       - name: Install Surge
         run: npm install --global surge
