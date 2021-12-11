@@ -6,7 +6,10 @@ import styles from "./Cards.module.css";
 
 export default function Cards(props) {
   const { data } = props;
-  const { confirmed, deaths, recovered, active, lastUpdate } = data;
+
+  if (!data) return "...loading";
+
+  const { confirmed, deaths, recovered, critical, lastUpdate = "N/A" } = data;
 
   return (
     <div className={styles.container}>
@@ -80,10 +83,10 @@ export default function Cards(props) {
         >
           <CardContent>
             <Typography color="textSecondary" gutterBottom>
-              Active
+              Critical
             </Typography>
             <Typography variant="h6">
-              <CountUp start={0} end={active} duration={2.5} separator="," />
+              <CountUp start={0} end={critical} duration={2.5} separator="," />
             </Typography>
             <Typography color="textSecondary">{lastUpdate}</Typography>
             <Typography variant="body2">
