@@ -21,6 +21,9 @@ jobs:
       - uses: borales/actions-yarn@v2.3.0
         with:
           cmd: install
+        env:
+          REACT_APP_API_HOST: ${{ secrets.REACT_APP_API_HOST }}
+          REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
 
       - name: Build React App
         run: sudo yarn build
