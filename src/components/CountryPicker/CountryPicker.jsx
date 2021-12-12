@@ -25,7 +25,7 @@ export default function CountryPicker(props) {
         }}
       >
         <option value="global">Global</option>
-        {countries.map((country, i) => (
+        {countries?.map((country, i) => (
           <option key={`country_${i}`} value={country}>
             {country}
           </option>
