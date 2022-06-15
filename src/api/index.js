@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "https://covid-19-data.p.rapidapi.com";
+const BASE_URL = "https://covid-19-statistics.p.rapidapi.com";
 const BASE_URL_2 = "https://covid2019-api.herokuapp.com";
 
 const get = (url, params) => ({
@@ -14,23 +14,20 @@ const get = (url, params) => ({
 });
 
 const getFormattedData = (data) => {
-  let result = {};
-  if (data?.length) {
-    const { confirmed, deaths, recovered, lastUpdate } = data[0];
-    result = {
-      confirmed,
-      deaths,
-      recovered,
-      lastUpdate: new Date(lastUpdate).toDateString(),
-    };
-  }
+  const { confirmed, deaths, recovered, last_update } = data;
+  const result = {
+    confirmed,
+    deaths,
+    recovered,
+    lastUpdate: new Date(last_update).toDateString(),
+  };
   return result;
 };
 
 export const fetchData = async () => {
   try {
-    const { data } = await axios.request(get(`${BASE_URL}/totals`));
-    return getFormattedData(data);
+    const { data } = await axios.request(get(`${BASE_URL}/reports/total`));
+    return getFormattedData(data.data);
   } catch (error) {
     console.log(error, "ERROR");
   }
@@ -38,8 +35,8 @@ export const fetchData = async () => {
 
 export const fetchDailyData = async () => {
   try {
-    const { data } = await axios.request(get(`${BASE_URL}/report/totals`));
-    return data;
+    const { data } = await axios.request(get(`${BASE_URL}/reports`));
+    return data.data;
   } catch (error) {
     console.log(error, "ERROR");
   }
@@ -59,9 +56,9 @@ export const fetchCountries = async () => {
 export const fetchDataByCountry = async (country) => {
   try {
     const { data } = await axios.request(
-      get(`${BASE_URL}/country`, { name: country })
+      get(`${BASE_URL}/reports`, { q: country })
     );
-    return getFormattedData(data);
+    return getFormattedData(data.data[0]);
   } catch (error) {
     console.log(error, "ERROR");
   }
